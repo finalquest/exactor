@@ -1,15 +1,15 @@
 defmodule ExActor.Mixfile do
   use Mix.Project
 
-  @version "1.0.0"
+  @version "1.0.1"
 
   def project do
     [
       project: "ExActor",
       version: @version,
-      elixir: "~> 1.0.0",
+      elixir: "~> 1.16.0",
       app: :exactor,
-      deps: deps,
+      deps: deps(),
       package: [
         contributors: ["Saša Jurić"],
         licenses: ["MIT"],
