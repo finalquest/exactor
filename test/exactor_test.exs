@@ -10,13 +10,13 @@ defmodule ExActorTest do
     defcast pm_set, state: 2, do: new_state(:two)
     defcast pm_set, state: 3, do: new_state(:three)
 
-    defcall timeout, timeout: 10, do: (:timer.sleep(100); noreply)
+    defcall timeout, timeout: 10, do: (:timer.sleep(100); noreply())
 
     defcall unexported, export: false, do: reply(:unexported)
     def my_unexported(server), do: GenServer.call(server, :unexported)
 
     defcall reply_leave_state, do: reply(3)
-    defcast leave_state, do: (4; noreply)
+    defcast leave_state, do: (4; noreply())
     defcall full_reply, do: set_and_reply(6, 5)
 
     def callp_interface(server), do: private_call(server)
@@ -40,17 +40,17 @@ defmodule ExActorTest do
 
     definfo {:msg1, from} do
       send(from, :reply_msg1)
-      noreply
+      noreply()
     end
 
     definfo {:msg_get, from}, state: state do
       send(from, state)
-      noreply
+      noreply()
     end
 
     definfo sender, when: is_pid(sender) do
       send(sender, :echo)
-      noreply
+      noreply()
     end
   end
 
@@ -94,14 +94,14 @@ defmodule ExActorTest do
     assert TestActor.test_from(actor) == :ok
     assert_receive :from_ok
 
-    send(actor, {:msg1, self})
+    send(actor, {:msg1, self()})
     assert_receive :reply_msg1
 
     TestActor.set(actor, 10)
-    send(actor, {:msg_get, self})
+    send(actor, {:msg_get, self()})
     assert_receive 10
 
-    send(actor, self)
+    send(actor, self())
     assert_receive :echo
   end
 
